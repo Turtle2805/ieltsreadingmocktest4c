@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ms Lê Hằng English - IELTS Reading Practice Test</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #FF85A2;
+            --secondary-pink: #FFB3C6;
+            --dark-purple: #8854C0;
+            --mint-green: #00C9A7;
+            --yellow-sunny: #FDCB6E;
+            --correct-green: #00D26A;
+            --wrong-red: #FF4757;
+            --text-dark: #2D3436;
+            --bg-light: #FFF5F7;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            background-image: linear-gradient(45deg, #FFF0F5 25%, transparent 25%), 
+                              linear-gradient(-45deg, #FFF0F5 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #FFF0F5 75%), 
+                              linear-gradient(-45deg, transparent 75%, #FFF0F5 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Header Control Strip */
+        header {
+            background: linear-gradient(135deg, var(--primary-pink), var(--dark-purple));
+            color: white;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .header-title h1 {
+            font-size: 18px;
+            font-weight: 700;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .header-title p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #timer-display {
+            font-size: 22px;
+            font-weight: 700;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .btn-timer {
+            background: var(--yellow-sunny);
+            border: none;
+            color: var(--text-dark);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #D6A232;
+            transition: all 0.1s;
+        }
+
+        .btn-timer:active {
+            transform: translateY(4px);
+            box-shadow: none;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 200px;
+            background: rgba(255, 255, 255, 0.3);
+            height: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--mint-green), #55E6C1);
+            transition: width 0.3s ease;
+        }
+
+        /* Workspace Grid Split Screen Layout */
+        .workspace {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            height: 100%;
+        }
+
+        /* Left Column Pane: Reading Sheet */
+        .panel-left {
+            border-right: 4px dashed var(--secondary-pink);
+            background-color: white;
+            padding-right: 30px;
+        }
+
+        /* Black text selection pastel pink highlights color */
+        .panel-left ::selection {
+            background-color: #FFD1DC;
+            color: #000;
+        }
+
+        .passage-title {
+            color: var(--dark-purple);
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--secondary-pink);
+            padding-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .paragraph-block {
+            margin-bottom: 24px;
+            line-height: 1.8;
+            font-size: 16px;
+            text-align: justify;
+            position: relative;
+            padding: 10px;
+            border-radius: 12px;
+            transition: background-color 0.4s ease;
+        }
+
+        .paragraph-block.highlighted-location {
+            background-color: #FFF2B2 !important;
+            border-left: 6px solid var(--yellow-sunny);
+            animation: pulse-highlight 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-highlight {
+            0% { background-color: #FFF2B2; }
+            100% { background-color: #FFE66D; }
+        }
+
+        .btn-translate {
+            background: #F1F2F6;
+            border: 2px solid #CED6E0;
+            color: #57606F;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+        }
+
+        .btn-translate:hover {
+            background: var(--secondary-pink);
+            color: white;
+            border-color: var(--primary-pink);
+        }
+
+        .translation-content {
+            display: none;
+            background-color: #FFF0F3;
+            border-left: 4px solid var(--primary-pink);
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #4B4B4B;
+            line-height: 1.7;
+        }
+
+        /* Right Column Pane: Exercises Area */
+        .panel-right {
+            background-color: #FFF9FA;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-pink));
+            color: white;
+            padding: 10px 16px;
+            border-radius: 15px;
+            font-size: 16px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+        }
+
+        .question-card {
+            background: white;
+            border: 3px solid #FFE3E8;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 0 #FFE3E8;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-text {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Form Dropdown Menus roll select style */
+        .roll-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            border: 3px solid #CED6E0;
+            border-radius: 15px;
+            padding: 6px 32px 6px 12px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 0 #CED6E0;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238854C0' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 14px;
+            min-width: 145px;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .roll-select:focus {
+            border-color: var(--dark-purple);
+        }
+
+        /* Multiple choice individual rows block decoration styling */
+        .mc-option {
+            background: white;
+            border: 2.5px solid #E4E7EB;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 0 #E4E7EB;
+        }
+
+        .mc-option:hover {
+            transform: scale(1.01);
+            border-color: var(--secondary-pink);
+            background-color: #FFFDFE;
+        }
+
+        .mc-option.selected-correct {
+            background-color: #E8FBEF !important;
+            border-color: var(--correct-green) !important;
+            box-shadow: 0 4px 0 var(--correct-green) !important;
+            color: #155724;
+            font-weight: 700;
+        }
+
+        .mc-option.selected-wrong {
+            background-color: #FFEAEB !important;
+            border-color: var(--wrong-red) !important;
+            box-shadow: 0 4px 0 var(--wrong-red) !important;
+            color: #721C24;
+        }
+
+        .mc-letter {
+            background-color: #F1F2F6;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+            color: #57606F;
+            flex-shrink: 0;
+        }
+
+        .selected-correct .mc-letter {
+            background-color: var(--correct-green);
+            color: white;
+        }
+
+        .selected-wrong .mc-letter {
+            background-color: var(--wrong-red);
+            color: white;
+        }
+
+        /* Explanations container format blocks */
+        .explanation-box {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: #F8F9FA;
+            border: 2px dashed #DCDDE1;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .exp-segment { margin-bottom: 8px; }
+        .exp-title { font-weight: 700; color: #2F3542; }
+        .exp-correct { color: var(--correct-green); font-weight: 700; }
+        .exp-quote { font-style: italic; color: #57606F; background: #FFF; padding: 8px; border-left: 3px solid var(--yellow-sunny); margin: 6px 0; border-radius: 0 6px 6px 0; }
+
+        .btn-locate {
+            background: var(--yellow-sunny);
+            border: none;
+            padding: 4px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 700;
+            box-shadow: 0 2px 0 #D6A232;
+        }
+
+        /* Core card visual adjustments animations shake rows */
+        .card-correct {
+            border-color: var(--correct-green) !important;
+            box-shadow: 0 6px 0 var(--correct-green) !important;
+            background-color: #E8FBEF !important;
+        }
+
+        .card-wrong-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Glossary Section formatting items */
+        .glossary-section {
+            margin-top: 40px;
+            background: white;
+            border: 3px solid var(--secondary-pink);
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .glossary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .glossary-table th {
+            background-color: var(--primary-pink);
+            color: white;
+            text-align: left;
+            padding: 10px;
+            font-weight: 700;
+        }
+
+        .glossary-table td {
+            padding: 10px;
+            border-bottom: 1px solid #FFE3E8;
+        }
+
+        .glossary-table tr:nth-child(even) {
+            background-color: #FFF5F7;
+        }
+
+        /* Sticky bottom anchor submission drawer strip bar */
+        .footer-submit {
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 4px solid var(--secondary-pink);
+        }
+
+        .btn-submit-all {
+            background: linear-gradient(135deg, var(--correct-green), #2ED573);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #218C4E;
+            transition: all 0.1s;
+        }
+
+        .btn-submit-all:active {
+            transform: translateY(6px);
+            box-shadow: none;
+        }
+
+        /* Final Result dashboard overlay summary popups */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: white;
+            border: 6px solid var(--primary-pink);
+            border-radius: 30px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-score {
+            font-size: 60px;
+            font-weight: 700;
+            color: var(--dark-purple);
+            margin: 20px 0;
+        }
+
+        .modal-comment {
+            font-size: 16px;
+            font-weight: 700;
+            color: #57606F;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .btn-close-modal {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #D65A7F;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Section Control Toolbar -->
+    <header>
+        <div class="header-title">
+            <p>Giáo viên tạo: Ms Lê Hằng English</p>
+            <h1>IELTS READING MOCK TEST - ANCIENT ROME HISTORY</h1>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                <span style="font-size: 11px; font-weight: 700; color: white;">TIẾN ĐỘ BÀI THI:</span>
+                <div class="progress-container">
+                    <div class="progress-bar" id="completion-progress"></div>
+                </div>
+            </div>
+
+            <div class="timer-container">
+                <span id="timer-display">25:00</span>
+                <button class="btn-timer" id="btn-timer-toggle" onclick="toggleTimer()">BẮT ĐẦU</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Frame Division Layout (Split-Screen) -->
+    <div class="workspace">
+        
+        <!-- Left Pane Section: Reading Sheet text panels -->
+        <div class="panel panel-left" id="reading-passage-panel">
+            <h2 class="passage-title">Ancient Rome: archaeologists are trying to understand more about the early history of the city</h2>
+            
+            <div class="paragraph-block" id="p1">
+                From ancient times to the present, historians have asked the question: How and why did an ordinary little town in central Italy grow so much bigger than any other in the ancient Mediterranean and come to control such a huge empire?’ During the first century BCE, Roman writers themselves began systematically to study the earlier centuries of their city and their empire. Yet these historians had little more direct evidence of the earliest phases of Rome's history than modern writers have, and in some ways perhaps not as much, as there were no surviving documents or archives. Their 'histories' about the foundation of ancient Rome tell us a good deal about how the Romans saw their city, their values, and their failings. However, they tell us very little indeed about what they claim to inform us about: that is, what earliest Rome was actually like. One fact is obvious. Rome was already a very old city by 63 BCE, the birth date of its first emperor. But how exactly are we to access reliable information about the origins of Rome?
+                <br><button class="btn-translate" onclick="toggleTranslation('1')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-1">
+                    Từ thời cổ đại đến nay, các nhà sử học luôn đặt ra câu hỏi: "Làm thế nào và tại sao một thị trấn nhỏ bình thường ở miền trung nước Ý lại có thể phát triển lớn mạnh hơn bất kỳ thị trấn nào khác ở Địa Trung Hải cổ đại và tiến tới kiểm soát một đế chế khổng lồ như vậy?" Trong thế kỷ đầu tiên TCN, chính các nhà văn La Mã đã bắt đầu nghiên cứu một cách có hệ thống về các thế kỷ trước đó của thành phố và đế chế của họ. Tuy nhiên, các nhà sử học này có rất ít bằng chứng trực tiếp về các giai đoạn sớm nhất của lịch sử Rome so với các nhà văn hiện đại, và ở một số khía cạnh có lẽ còn không nhiều bằng, do không có tài liệu hoặc tài liệu lưu trữ nào còn sót lại. "Lịch sử" của họ về sự thành lập của Rome cổ đại cho chúng ta biết nhiều điều về cách người La Mã nhìn nhận thành phố của họ, các giá trị và cả những sai lầm của họ. Tuy nhiên, chúng thực sự kể rất ít về những gì chúng tuyên bố sẽ thông tin cho chúng ta: đó là, Rome thời kỳ đầu tiên thực sự trông như thế nào. Có một sự thật hiển nhiên là Rome đã là một thành phố rất lâu đời trước năm 63 TCN, năm sinh của vị hoàng đế đầu tiên của nó. Nhưng làm thế nào chính xác để chúng ta tiếp cận thông tin đáng tin cậy về nguồn gốc của Rome?
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p2">
+                One way of doing this is by turning away from the histories of Roman writers and seeking out clues in the Latin language, or in later Roman institutions that might point back to features of earliest Rome. Much more tangible, however, is the evidence of archaeology. Dig down deep in the city of Rome, below the visible ancient monuments, and a few traces of a much earlier settlement or settlements remain. Beneath the Forum itself (an ancient marketplace at the centre of the city) lie the remains of an early cemetery, which caused tremendous excitement when they were first unearthed at the start of the 20th century. Cemeteries imply the existence of a community, and traces of that are presumably to be found in the groups of huts whose faint outlines have been detected under various parts of the later city, including on the Palatine (the centremost of the seven hills on which Rome is built). We have little idea of the nature of these huts beyond their construction in wood, clay, and thatch, and still less of the lifestyle they supported. But we can fill in some of the gaps if we look just outside Rome. One of the best preserved and most carefully excavated of these early structures was found at Fidenae, a few miles north of the city, in the 1980s. It is a rectangular building, some six by five metres, made of wood and rammed earth - a construction method still utilised up to the present day - with a simple porch around it, formed by the overhanging roof. Inside was a central hearth, some large pottery storage jars, and traces of predictable foodstuffs and domestic animals.
+                <br><button class="btn-translate" onclick="toggleTranslation('2')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-2">
+                    Một cách để làm điều này là bỏ qua các câu chuyện lịch sử của các nhà văn La Mã và tìm kiếm các manh mối trong chính ngôn ngữ Latinh, hoặc trong các thể chế La Mã sau này có thể chỉ ra các đặc điểm của Rome thời kỳ đầu. Tuy nhiên, rõ ràng và hữu hình hơn nhiều là các bằng chứng của khảo cổ học. Đào sâu xuống thành phố Rome, bên dưới các di tích cổ có thể nhìn thấy, và một vài dấu vết của một hoặc nhiều khu định cư sớm hơn nhiều vẫn còn lại. Bên dưới chính quảng trường Forum (một khu chợ cổ ở trung tâm thành phố) là di tích của một nghĩa trang sơ khai, nơi đã gây ra sự phấn khích to lớn khi chúng lần đầu tiên được khai quật vào đầu thế kỷ 20. Nghĩa trang ngụ ý sự tồn tại của một cộng đồng, và các dấu vết của điều đó có lẽ được tìm thấy trong các nhóm lều bạt mà đường nét mờ nhạt của chúng đã được phát hiện dưới nhiều phần khác nhau của thành phố sau này, bao gồm cả trên đồi Palatine (ngọn đồi trung tâm nhất trong số bảy ngọn đồi mà Rome được xây dựng trên đó). Chúng ta có rất ít ý niệm về bản chất của những túp lều này ngoài việc chúng được xây dựng bằng gỗ, đất sét và rơm rạ, và càng ít biết về lối sống mà chúng hỗ trợ. Nhưng chúng ta có thể lấp đầy một số khoảng trống nếu nhìn ra ngay bên ngoài Rome. Một trong những cấu trúc ban đầu được bảo tồn tốt nhất và được khai quật cẩn thận nhất được tìm thấy ở Fidenae, cách thành phố vài dặm về phía bắc, vào những năm 1980. Đó là một tòa nhà hình chữ nhật, khoảng sáu nhân năm mét, làm bằng gỗ và đất nện — một phương pháp xây dựng vẫn được sử dụng cho đến ngày nay — với một mái hiên đơn giản xung quanh, được tạo thành bởi phần mái nhô ra. Bên trong là một lò sưởi trung tâm, một số vại gốm lớn để lưu trữ, và dấu vết của các loại thực phẩm có thể dự đoán trước cùng động vật gia súc nội nuôi.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p3">
+                There are vivid glimpses of human and other life here; the question is, what do those glimpses add up to? The archaeological remains certainly demonstrate that there is a long and rich prehistory behind the ancient Rome we can still see, but quite how long that prehistory is is another matter.
+                <br><button class="btn-translate" onclick="toggleTranslation('3')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-3">
+                    Có những cái nhìn thoáng qua sống động về cuộc sống con người và các sinh vật khác ở đây; câu hỏi là, những cái nhìn thoáng qua đó tổng hòa lại điều gì? Các di tích khảo cổ học chắc chắn chứng minh rằng có một thời tiền sử lâu dài và phong phú đằng sau Rome cổ đại mà chúng ta vẫn có thể nhìn thấy, nhưng thời tiền sử đó kéo dài bao lâu lại là một câu chuyện khác.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p4">
+                Part of the problem is the conditions of excavation in the city itself. The site of Rome has been so intensively built on for centuries that we find these traces of early occupation only in spots that happen not to have been disturbed. The foundations dug in the first and second centuries CE for the vast marble temples of the forum obliterated much of what then lay beneath the surface; the cellars of grand Renaissance houses cut through even more ancient remains in other parts of the city. So we have tiny snapshots, never the big picture. This is archaeology at its most difficult, and - although new fragments of evidence emerge all the time - its interpretation, and reinterpretation is almost always contested and often controversial. For example, there is an ongoing debate about whether the small pieces of wattle and daub found in excavations in the Forum in the mid-20th century indicate that there was an early hut settlement there too, or whether they were inadvertently introduced as part of the rubble used a few centuries later to provide a new raised surface for the area. It has to be said that this place, though fine for a cemetery, would have been rather damp and marshy for a village.
+                <br><button class="btn-translate" onclick="toggleTranslation('4')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-4">
+                    Một phần của vấn đề là điều kiện khai quật trong chính thành phố. Địa điểm của Rome đã được xây dựng quá dày đặc trong nhiều thế kỷ đến mức chúng ta chỉ tìm thấy những dấu vết cư trú ban đầu này ở những điểm tình cờ không bị xáo trộn. Nền móng được đào vào thế kỷ thứ nhất và thứ hai CN cho các đền thờ bằng đá cẩm thạch khổng lồ của quảng trường Forum đã xóa sạch phần lớn những gì nằm bên dưới bề mặt khi đó; các hầm rượu của các ngôi nhà lớn thời Phục Hưng đã cắt ngang qua các di tích thậm chí còn cổ xưa hơn ở các vùng khác của thành phố. Vì vậy, chúng ta chỉ có những bức ảnh chụp nhanh nhỏ bé, không bao giờ là một bức tranh lớn toàn cảnh. Đây là ngành khảo cổ học ở giai đoạn khó khăn nhất, và — mặc dù các mảnh bằng chứng mới luôn xuất hiện mọi lúc — việc diễn giải và diễn giải lại nó hầu như luôn bị tranh chấp và thường gây tranh cãi. Ví dụ, có một cuộc tranh luận đang diễn ra về việc liệu các mảnh phên dậu và đất sét nhỏ tìm thấy trong các cuộc khai quật ở Forum vào giữa thế kỷ 20 có chỉ ra rằng cũng có một khu định cư lều bạt sơ khai ở đó hay không, hay liệu chúng vô tình được đưa vào như một phần của đống gạch vụn được sử dụng vài thế kỷ sau đó để tạo ra một bề mặt nâng cao mới cho khu vực này. Phải nói rằng nơi này, dù tốt cho một nghĩa trang, nhưng sẽ khá ẩm ướt và đầm lầy đối với một ngôi làng định cư cư trú.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p5">
+                Precise dating is even more contentious. It cannot be stressed enough that there is no certain independent date for any of the archaeological material from earliest Rome or the area around, and that arguments still rage about the age of almost every major find. It has taken decades of work over the past century or so - using such diagnostics as the existence of wheel-made pottery (assumed to be later than handmade), the occasional presence on graves of Greek ceramics (whose dating is better, but still not perfectly understood) and careful comparison from site to site - to produce a rough chronological scheme covering the period from around 1000 to 600 BCE.
+                <br><button class="btn-translate" onclick="toggleTranslation('5')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-5">
+                    Việc xác định chính xác ngày tháng niên đại thậm chí còn gây tranh cãi nhiều hơn. Không thể nhấn mạnh đủ rằng không có một ngày độc lập chắc chắn nào cho bất kỳ vật liệu khảo cổ nào từ Rome thời kỳ đầu tiên hoặc khu vực xung quanh, và các cuộc tranh luận vẫn nổ ra gay gắt về tuổi thọ của hầu hết các phát hiện lớn. Đã phải mất nhiều thập kỷ làm việc trong thế kỷ qua — sử dụng các chẩn đoán như sự tồn tại của đồ gốm làm bằng bàn xoay (được giả định là muộn hơn đồ gốm làm bằng tay), sự xuất hiện đôi khi trên các ngôi mộ của gốm sứ Hy Lạp (việc xác định niên đại của chúng tốt hơn, nhưng vẫn chưa được hiểu hoàn hảo) và so sánh cẩn thận từ địa điểm này sang địa điểm khác — để tạo ra một sơ đồ niên đại thô sơ bao gồm khoảng thời gian từ khoảng 1000 đến 600 TCN.
+                </div>
+            </div>
+
+            <div class="paragraph-block" id="p6">
+                On that basis, the earliest burials in Rome would have been around 1000 BCE, and the earliest known settlements around 750-700 BCE. But even these dates are far from certain. Recent scientific methods - including radiocarbon dating, which calculates the age of any organic material - have suggested that they are all too 'young', by as much as a hundred years. The building at Fidenae, for example, was dated around the middle of the eighth century BCE according to traditional archaeological criteria, but that is pushed back to around the end of the ninth century BCE if we follow radiocarbon analysis. If anything, Rome appears to be getting older.
+                <br><button class="btn-translate" onclick="toggleTranslation('6')">Mở dịch đoạn này 🌟</button>
+                <div class="translation-content" id="trans-6">
+                    Trên cơ sở đó, các vụ chôn cất sớm nhất ở Rome sẽ là vào khoảng 1000 năm TCN, và các khu định cư được biết đến sớm nhất là vào khoảng 750-700 năm TCN. Nhưng ngay cả những ngày tháng này cũng còn lâu mới chắc chắn. Các phương pháp khoa học gần đây — bao gồm cả định tuổi bằng carbon phóng xạ, tính toán tuổi của bất kỳ vật liệu hữu cơ nào — đã gợi ý rằng tất cả chúng đều quá "trẻ", lên tới cả trăm năm. Ví dụ, tòa nhà ở Fidenae được xác định niên đại vào khoảng giữa thế kỷ thứ tám TCN theo các tiêu chí khảo cổ học truyền thống, nhưng điều đó đã được đẩy lùi về khoảng cuối thế kỷ thứ chín TCN nếu chúng ta tuân theo phân tích carbon phóng xạ. Nếu có bất cứ điều gì thay đổi, thì Rome dường như đang trở nên già hơn.
+                </div>
+            </div>
+
+            <!-- Beautiful Master Glossary Sheet -->
+            <div class="glossary-section">
+                <h3 style="color: var(--dark-purple);">📚 BẢNG TỪ VỰNG HỌC THUẬT QUY MÔ (GLOSSARY)</h3>
+                <p style="font-size: 13px; color: #7F8C8D; margin-top: 4px;">Tổng hợp chính xác 50 từ vựng cốt lõi học thuật B2-C2 xuất hiện trực tiếp hoặc đồng nghĩa trong đề thi.</p>
+                <table class="glossary-table">
+                    <thead>
+                        <tr>
+                            <th>Từ vựng</th>
+                            <th>Từ loại</th>
+                            <th>Nghĩa tiếng Việt & Từ đồng nghĩa trong đề</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Historian / Historians</td><td>n</td><td>Nhà sử học chuyên ngành</td></tr>
+                        <tr><td>Systematically</td><td>adv</td><td>Một cách có hệ thống bài bản</td></tr>
+                        <tr><td>Phase / Phases</td><td>n</td><td>Giai đoạn hình thành phát triển (= stage)</td></tr>
+                        <tr><td>Archive / Archives</td><td>n</td><td>Tài liệu kho lưu trữ tư liệu quốc gia</td></tr>
+                        <tr><td>Failing / Failings</td><td>n</td><td>Thiếu sót, sai lầm, khuyết điểm</td></tr>
+                        <tr><td>Access</td><td>v</td><td>Tiếp cận, khai thác thông tin dữ liệu</td></tr>
+                        <tr><td>Reliable</td><td>adj</td><td>Đáng tin cậy, có độ xác thực cao</td></tr>
+                        <tr><td>Origin / Origins</td><td>n</td><td>Nguồn gốc, nguồn căn sơ khởi (= rise / founding)</td></tr>
+                        <tr><td>Institution / Institutions</td><td>n</td><td>Thể chế, cơ quan tổ chức xã hội</td></tr>
+                        <tr><td>Tangible</td><td>adj</td><td>Hữu hình, rõ ràng, có thể chạm tới sát thực</td></tr>
+                        <tr><td>Archaeology</td><td>n</td><td>Khảo cổ học chuyên ngành</td></tr>
+                        <tr><td>Trace / Traces</td><td>n/v</td><td>Dấu vết, tàn tích còn sót lại (= snapshot / fragment)</td></tr>
+                        <tr><td>Settlement / Settlements</td><td>n</td><td>Khu định cư, nơi thiết lập làng mạc cư trú</td></tr>
+                        <tr><td>Forum</td><td>n</td><td>Quảng trường, khu chợ cổ trung tâm thành phố</td></tr>
+                        <tr><td>Cemetery / Cemeteries</td><td>n</td><td>Nghĩa trang, bãi chôn cất mộ phần (= burial ground)</td></tr>
+                        <tr><td>Unearthed</td><td>v/adj</td><td>Được khai quật, đào bới đưa ra ánh sáng (= excavated)</td></tr>
+                        <tr><td>Presumably</td><td>adv</td><td>Có lẽ là, có thể đoán chừng là</td></tr>
+                        <tr><td>Detect / Detected</td><td>v/adj</td><td>Được phát hiện, tìm ra dấu vết mờ nhạt</td></tr>
+                        <tr><td>Hut / Huts</td><td>n</td><td>Túp lều sơ khai bằng tranh tre nứa lá</td></tr>
+                        <tr><td>Thatch</td><td>n</td><td>Mái rơm, mái lá rạ khô chống dột</td></tr>
+                        <tr><td>Excavate / Excavated</td><td>v/adj</td><td>Được khai quật một cách cẩn trọng (= unearthed)</td></tr>
+                        <tr><td>Structure / Structures</td><td>n</td><td>Cấu trúc xây dựng, công trình kiến trúc (= building)</td></tr>
+                        <tr><td>Rectangular</td><td>adj</td><td>Hình chữ nhật khối vuông vức</td></tr>
+                        <tr><td>Rammed earth</td><td>n</td><td>Đất nện (phương pháp xây vách tường cổ cổ xưa)</td></tr>
+                        <tr><td>Utilise / Utilised</td><td>v/adj</td><td>Được sử dụng, vận dụng khai thác (= in use)</td></tr>
+                        <tr><td>Hearth</td><td>n</td><td>Lò sưởi, bếp lửa sưởi ấm gia đình trung tâm</td></tr>
+                        <tr><td>Foodstuff / Foodstuffs</td><td>n</td><td>Lương thực, thực phẩm ăn uống hằng ngày (= diet)</td></tr>
+                        <tr><td>Domestic animal</td><td>n</td><td>Gia súc gia cầm, động vật nuôi trong nhà</td></tr>
+                        <tr><td>Vivid glimpse / Glimpses</td><td>n</td><td>Cái nhìn thoáng qua, góc nhìn vô cùng sống động</td></tr>
+                        <tr><td>Prehistory</td><td>n</td><td>Thời kỳ tiền sử (giai đoạn trước khi có chữ viết)</td></tr>
+                        <tr><td>Intensively</td><td>adv</td><td>Một cách dày đặc, mạnh mẽ tập trung cao độ</td></tr>
+                        <tr><td>Occupation</td><td>n</td><td>Sự cư trú, sự chiếm đóng sinh sống</td></tr>
+                        <tr><td>Disturbed</td><td>v/adj</td><td>Bị xâm phạm, xáo trộn, làm phiền mất cấu trúc</td></tr>
+                        <tr><td>Obliterated</td><td>v/adj</td><td>Bị xóa sạch hoàn toàn, phá hủy tận gốc (= destroyed)</td></tr>
+                        <tr><td>Interpretation</td><td>n</td><td>Sự diễn giải, phân tích lý giải góc nhìn nội dung</td></tr>
+                        <tr><td>Contested</td><td>v/adj</td><td>Bị tranh chấp, phản đối phản bác mạnh mẽ (= oppose)</td></tr>
+                        <tr><td>Controversial</td><td>adj</td><td>Gây tranh cãi dữ dội, nhiều luồng ý kiến trái chiều</td></tr>
+                        <tr><td>Inadvertently</td><td>adv</td><td>Một cách vô tình, ngẫu nhiên không chủ đích</td></tr>
+                        <tr><td>Rubble</td><td>n</td><td>Đống gạch vụn, đống đổ nát hoang tàn</td></tr>
+                        <tr><td>Damp</td><td>adj</td><td>Ẩm ướt, nhớp nháp khí hậu ẩm thấp</td></tr>
+                        <tr><td>Marshy</td><td>adj</td><td>Đầm lầy, sình lầy cấu trúc đất trũng</td></tr>
+                        <tr><td>Contentious</td><td>adj</td><td>Gây nhiều bất đồng tranh cãi nảy lửa (= contentious)</td></tr>
+                        <tr><td>Rage / Rage still</td><td>v</td><td>Nổ ra dữ dội, diễn ra vô cùng ác liệt (tranh luận)</td></tr>
+                        <tr><td>Diagnostic / Diagnostics</td><td>n</td><td>Dấu hiệu chẩn đoán, công cụ phân loại đặc trưng</td></tr>
+                        <tr><td>Ceramic / Ceramics</td><td>n</td><td>Đồ gốm sứ chế tác nghệ thuật thủ công (= pottery)</td></tr>
+                        <tr><td>Chronological scheme</td><td>n</td><td>Sơ đồ sắp xếp niên đại theo thứ tự thời gian (= sequence)</td></tr>
+                        <tr><td>Organic material</td><td>n</td><td>Vật liệu hữu cơ tự nhiên</td></tr>
+                        <tr><td>Criteria</td><td>n</td><td>Tiêu chí phân loại, chuẩn mực đánh giá xác lập</td></tr>
+                        <tr><td>Traditional</td><td>adj</td><td>Mang tính truyền thống, phương pháp cổ điển cổ xưa</td></tr>
+                        <tr><td>Analysis</td><td>n</td><td>Sự phân tích khoa học kiểm tra chuyên sâu</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Right Pane Section: Exercises interactive sheet -->
+        <div class="panel panel-right">
+            
+            <!-- SECTION 1: QUESTIONS 27-32 -->
+            <div class="section-title">📊 DẠNG 1: YES / NO / NOT GIVEN (Questions 27–32)</div>
+            <p style="font-size: 13px; color: #57606F; margin-bottom: 15px; font-weight: bold;">Chọn giá trị tương ứng trong thanh cuộn cho mỗi câu hỏi dưới đây:</p>
+
+            <!-- Card Q27 -->
+            <div class="question-card" id="card-q27">
+                <div class="question-text">27. Historians have expressed little curiosity about the rise of the Roman Empire.</div>
+                <select id="q27" class="roll-select" onchange="checkDropdown('q27', 'NO', 'p1')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                
+                <div class="explanation-box" id="exp-q27">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">NO</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"From ancient times to the present, historians have asked the question: How and why did an ordinary little town... grow so much bigger..."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA ĐOẠN CHỨA ĐÁP ÁN:</span> Từ thời cổ đại đến nay, các nhà sử học liên tục đặt ra câu hỏi tò mò nghiên cứu về nguyên nhân đế chế lớn mạnh. Do đó nhận định nói họ "ít tò mò" (little curiosity) là mâu thuẫn hoàn toàn.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> asked the question = curiosity &ne; little curiosity <button class="btn-locate" onclick="locatePassage('p1')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Card Q28 -->
+            <div class="question-card" id="card-q28">
+                <div class="question-text">28. Accounts from the first century BCE of Rome's origins may be less reliable than 21st-century accounts.</div>
+                <select id="q28" class="roll-select" onchange="checkDropdown('q28', 'YES', 'p1')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                
+                <div class="explanation-box" id="exp-q28">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">YES</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"Yet these historians had little more direct evidence of the earliest phases of Rome's history than modern writers have, and in some ways perhaps not as much..."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA ĐOẠN CHỨA ĐÁP ÁN:</span> Các nhà sử học thế kỷ 1 TCN có rất ít bằng chứng trực tiếp, thậm chí ở một số khâu không nhiều bằng nhà văn hiện đại (21st-century accounts) do thiếu tư liệu lưu trữ khoa học. Vì thế thông tin họ ít đáng tin cậy hơn là chính xác.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> less reliable = in some ways perhaps not as much direct evidence | modern writers = 21st-century accounts <button class="btn-locate" onclick="locatePassage('p1')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Card Q29 -->
+            <div class="question-card" id="card-q29">
+                <div class="question-text">29. Most Roman historians viewed their ancient capital in an unrealistically positive light.</div>
+                <select id="q29" class="roll-select" onchange="checkDropdown('q29', 'NO', 'p1')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                
+                <div class="explanation-box" id="exp-q29">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">NO</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"Their 'histories'... tell us a good deal about how the Romans saw their city, their values, and their failings."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA ĐOẠN CHỨA ĐÁP ÁN:</span> Sử sách của họ ghi chép rất rõ cả về giá trị lẫn những sai lầm, khuyết điểm thất bại (failings) của thành phố, chứ không chỉ nhìn nhận một cách tích cực phi thực tế. Do đó câu hỏi sai.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> failings &ne; unrealistically positive light <button class="btn-locate" onclick="locatePassage('p1')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Card Q30 -->
+            <div class="question-card" id="card-q30">
+                <div class="question-text">30. The accounts by early Roman historians about the founding of Rome provide a full description of life at that time.</div>
+                <select id="q30" class="roll-select" onchange="checkDropdown('q30', 'NO', 'p1')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                
+                <div class="explanation-box" id="exp-q30">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">NO</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"However, they tell us very little indeed about what they claim to inform us about: that is, what earliest Rome was actually like."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA ĐOẠN CHỨA ĐÁP ÁN:</span> Ngược lại hoàn toàn, họ cung cấp vô cùng ít thông tin về thực tế đời sống thật sự của Rome thuở sơ khai, mâu thuẫn hoàn toàn với chữ "full description".</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> tell us very little indeed &ne; full description <button class="btn-locate" onclick="locatePassage('p1')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Card Q31 -->
+            <div class="question-card" id="card-q31">
+                <div class="question-text">31. It is certain that the city of Rome was in existence long before 63 BCE.</div>
+                <select id="q31" class="roll-select" onchange="checkDropdown('q31', 'YES', 'p1')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                
+                <div class="explanation-box" id="exp-q31">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">YES</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"One fact is obvious. Rome was already a very old city by 63 BCE, the birth date of its first emperor."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA ĐOẠN CHỨA ĐÁP ÁN:</span> Một sự thật hiển nhiên rõ ràng (obvious) là Rome đã thành một thành phố cực kỳ già cỗi, lâu đời vào năm 63 TCN. Tức là nó đã tồn tại từ rất lâu trước mốc thời gian này.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> certain / obvious = one fact is obvious | in existence long before = already a very old city by <button class="btn-locate" onclick="locatePassage('p1')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Card Q32 -->
+            <div class="question-card" id="card-q32">
+                <div class="question-text">32. Some people oppose archaeological excavations in Rome because they can damage the ancient monuments.</div>
+                <select id="q32" class="roll-select" onchange="checkDropdown('q32', 'NOT GIVEN', 'p4')">
+                    <option value="">-- Lựa chọn --</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                    <option value="NOT GIVEN">NOT GIVEN</option>
+                </select>
+                
+                <div class="explanation-box" id="exp-q32">
+                    <div class="exp-segment"><span class="exp-title">1. ĐÁP ÁN:</span> <span class="exp-correct">NOT GIVEN</span></div>
+                    <div class="exp-segment"><span class="exp-title">2. ĐOẠN CHỨA ĐÁP ÁN:</span> 
+                        <div class="exp-quote">"The site of Rome has been so intensively built on for centuries that we find these traces... This is archaeology at its most difficult..."</div>
+                    </div>
+                    <div class="exp-segment"><span class="exp-title">3. DỊCH NGHĨA ĐOẠN CHỨA ĐÁP ÁN:</span> Bài đọc nêu thông tin việc xây dựng đè lên nhau gây khó khăn cho khảo cổ, hoàn toàn không có dữ liệu nào nhắc đến việc có một số người phản đối (oppose) khai quật vì sợ làm hỏng di tích.</div>
+                    <div class="exp-segment"><span class="exp-title">4. CỤM TỪ ĐỒNG NGHĨA:</span> Không xuất hiện thông tin tương đương để kiểm chứng trong bài văn. <button class="btn-locate" onclick="locatePassage('p4')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+
+            <!-- SECTION 2: QUESTIONS 33-36 -->
+            <div class="section-title">🏆 DẠNG 2: MULTIPLE CHOICE QUESTIONS (Questions 33–36)</div>
+            <p style="font-size: 13px; color: #57606F; margin-bottom: 15px; font-weight: bold;">Click trực tiếp lên đáp án hàng dòng bên dưới để kiểm tra chính xác:</p>
+
+            <!-- Card Q33 -->
+            <div class="question-card" id="card-q33">
+                <div class="question-text">33. According to the writer, why were the archaeological remains found at Fidenae important?</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q33', 'A', this, 'p2')"><div class="mc-letter">A</div> They shed some light on the way of life of ancient Romans.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q33', 'B', this, 'p2')"><div class="mc-letter">B</div> They were the first evidence of an ancient Roman settlement in the area.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q33', 'C', this, 'p2')"><div class="mc-letter">C</div> They overturned common assumptions about the diet of ancient Romans.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q33', 'D', this, 'p2')"><div class="mc-letter">D</div> They showed how sophisticated domestic Roman architecture could be.</div>
+                
+                <div class="explanation-box" id="exp-q33">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">A</span></div>
+                    <div class="exp-quote">"But we can fill in some of the gaps if we look just outside Rome. One of the best preserved... Inside was a central hearth, some large pottery storage jars, and traces of predictable foodstuffs and domestic animals."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Công trình tìm thấy tại Fidenae chứa lò sưởi, bình vại tích trữ và dấu vết thực phẩm, gia súc giúp "lấp đầy khoảng trống" về cách sống, thói quen sinh hoạt (way of life). <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Card Q34 -->
+            <div class="question-card" id="card-q34">
+                <div class="question-text">34. What did Rome's marble temples and Renaissance houses have in common?</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q34', 'A', this, 'p4')"><div class="mc-letter">A</div> They were the most enduring buildings of their respective eras.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q34', 'B', this, 'p4')"><div class="mc-letter">B</div> They were evidence of Rome's enormous wealth.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q34', 'C', this, 'p4')"><div class="mc-letter">C</div> They were built on previously unoccupied sites.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q34', 'D', this, 'p4')"><div class="mc-letter">D</div> Their construction destroyed evidence of earlier buildings.</div>
+                
+                <div class="explanation-box" id="exp-q34">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">D</span></div>
+                    <div class="exp-quote">"The foundations dug... for the vast marble temples... obliterated much of what then lay beneath the surface; the cellars of grand Renaissance houses cut through even more ancient remains..."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Điểm chung của cả đền thờ cẩm thạch và các ngôi nhà thời Phục hưng là việc xây dựng nền móng/hầm rượu của chúng đã xóa sạch (obliterated) hoặc cắt ngang (cut through) qua các di tích cổ xưa hơn lân cận bên dưới. <button class="btn-locate" onclick="locatePassage('p4')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Card Q35 -->
+            <div class="question-card" id="card-q35">
+                <div class="question-text">35. What does the writer say in the fifth paragraph about the dating of excavated remains?</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q35', 'A', this, 'p5')"><div class="mc-letter">A</div> Only the age of a proportion of remains can be agreed upon.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q35', 'B', this, 'p5')"><div class="mc-letter">B</div> Only an approximate sequence of eras can be established.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q35', 'C', this, 'p5')"><div class="mc-letter">C</div> Serious attempts at dating began only a few decades ago.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q35', 'D', this, 'p5')"><div class="mc-letter">D</div> More thorough investigations will result in reliable dates.</div>
+                
+                <div class="explanation-box" id="exp-q35">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">B</span></div>
+                    <div class="exp-quote">"...to produce a rough chronological scheme covering the period from around 1000 to 600 BCE."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Việc đối chiếu so sánh chỉ giúp các nhà khoa học tạo dựng lên một sơ đồ chuỗi thời gian đại khái, sơ bộ mang tính tương đối (rough chronological scheme = approximate sequence). <button class="btn-locate" onclick="locatePassage('p5')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Card Q36 -->
+            <div class="question-card" id="card-q36">
+                <div class="question-text">36. In the final paragraph, the writer makes the point that</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q36', 'A', this, 'p6')"><div class="mc-letter">A</div> traditional archaeological methods of dating have been discredited.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q36', 'B', this, 'p6')"><div class="mc-letter">B</div> many archaeologists are reluctant to abandon traditional methods of dating.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q36', 'C', this, 'p6')"><div class="mc-letter">C</div> radiocarbon dating is more accurate than archaeological methods.</div>
+                <div class="mc-option" onclick="checkMultipleChoice('q36', 'D', this, 'p6')"><div class="mc-letter">D</div> the findings of traditional archaeology and radiocarbon dating differ.</div>
+                
+                <div class="explanation-box" id="exp-q36">
+                    <div class="exp-segment"><span class="exp-title">ĐÁP ÁN ĐÚNG:</span> <span class="exp-correct">D</span></div>
+                    <div class="exp-quote">"...dated around the middle of the eighth century BCE according to traditional archaeological criteria, but that is pushed back to around the end of the ninth century BCE if we follow radiocarbon analysis."</div>
+                    <div class="exp-segment"><strong>Giải thích chi tiết:</strong> Tác giả đưa ra minh chứng rõ ràng: phương pháp truyền thống cho kết quả là giữa thế kỷ 8 TCN, còn phân tích carbon phóng xạ lại cho thấy cuối thế kỷ 9 TCN. Hai phương pháp có kết quả lệch nhau (differ). <button class="btn-locate" onclick="locatePassage('p6')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+
+            <!-- SECTION 3: QUESTIONS 37-40 -->
+            <div class="section-title">📝 DẠNG 3: MATCHING SENTENCE ENDINGS (Questions 37–40)</div>
+            <p style="font-size: 13px; color: #57606F; margin-bottom: 15px; font-weight: bold;">Chọn đuôi câu phù hợp từ danh sách A-F dưới đây:</p>
+            
+            <div style="background-color: #FFF0F3; padding: 12px; border-radius: 12px; font-size: 13px; color: #4B4B4B; margin-bottom: 15px; border: 1px solid #FFE3E8;">
+                <strong>DANH SÁCH ĐUÔI CÂU LỰA CHỌN (A-F):</strong><br>
+                A. composed of organic materials which are in use in the 21st century.<br>
+                B. referred to in popular legends about the origins of Rome.<br>
+                C. constructed on the site of an earlier burial ground.<br>
+                D. used to determine the relative dates of various Roman artefacts.<br>
+                E. chosen as the area for the greatest number of archaeological excavations.<br>
+                F. expected to shed some light on what Rome was originally like.
+            </div>
+
+            <!-- Question 37 -->
+            <div class="question-card" id="card-q37">
+                <div class="question-text">37. The Latin language can be
+                    <select id="q37" class="roll-select" onchange="checkDropdownEnding('q37', 'F', 'p2')">
+                        <option value="">- Chọn -</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                </div>
+                <div class="explanation-box" id="exp-q37">
+                    <div class="exp-segment"><span class="exp-title">Đáp án đúng:</span> <span class="exp-correct">F</span></div>
+                    <div class="exp-quote">"...seeking out clues in the Latin language... that might point back to features of earliest Rome."</div>
+                    <div class="exp-segment"><strong>Giải thích:</strong> Việc tìm kiếm manh mối trong tiếng Latin được kỳ vọng sẽ chỉ ra các đặc điểm nguyên bản thuở ban sơ của Rome (shed some light on what Rome was originally like). <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 38 -->
+            <div class="question-card" id="card-q38">
+                <div class="question-text">38. The Roman Forum was
+                    <select id="q38" class="roll-select" onchange="checkDropdownEnding('q38', 'C', 'p2')">
+                        <option value="">- Chọn -</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                </div>
+                <div class="explanation-box" id="exp-q38">
+                    <div class="exp-segment"><span class="exp-title">Đáp án đúng:</span> <span class="exp-correct">C</span></div>
+                    <div class="exp-quote">"Beneath the Forum itself... lie the remains of an early cemetery..."</div>
+                    <div class="exp-segment"><strong>Giải thích:</strong> Bên dưới quảng trường Forum là tàn tích của một nghĩa trang cổ xưa, tức là quảng trường này được xây dựng đè lên một khu đất chôn cất cũ (earlier burial ground = cemetery). <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 39 -->
+            <div class="question-card" id="card-q39">
+                <div class="question-text">39. The recently discovered building at Fidenae was
+                    <select id="q39" class="roll-select" onchange="checkDropdownEnding('q39', 'A', 'p2')">
+                        <option value="">- Chọn -</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                </div>
+                <div class="explanation-box" id="exp-q39">
+                    <div class="exp-segment"><span class="exp-title">Đáp án đúng:</span> <span class="exp-correct">A</span></div>
+                    <div class="exp-quote">"...made of wood and rammed earth - a construction method still utilised up to the present day..."</div>
+                    <div class="exp-segment"><strong>Giải thích:</strong> Tòa nhà tại Fidenae làm từ gỗ và đất nện (chất liệu hữu cơ), phương pháp này vẫn còn được sử dụng ở thế kỷ 21 ngày nay (utilised up to the present day = in use in the 21st century). <button class="btn-locate" onclick="locatePassage('p2')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+            <!-- Question 40 -->
+            <div class="question-card" id="card-q40">
+                <div class="question-text">40. Ancient Greek pottery is sometimes
+                    <select id="q40" class="roll-select" onchange="checkDropdownEnding('q40', 'D', 'p5')">
+                        <option value="">- Chọn -</option>
+                        <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                        <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    </select>
+                </div>
+                <div class="explanation-box" id="exp-q40">
+                    <div class="exp-segment"><span class="exp-title">Đáp án đúng:</span> <span class="exp-correct">D</span></div>
+                    <div class="exp-quote">"...the occasional presence on graves of Greek ceramics... to produce a rough chronological scheme covering the period..."</div>
+                    <div class="exp-segment"><strong>Giải thích:</strong> Sự xuất hiện của gốm sứ Hy Lạp cổ đại (Greek ceramics = Greek pottery) được tận dụng làm công cụ chẩn đoán để xác định niên đại tương đối của các cổ vật La Mã khác. <button class="btn-locate" onclick="locatePassage('p5')">📍 Xem dẫn chứng</button></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom Submission Bar Container -->
+    <div class="footer-submit">
+        <button class="btn-submit-all" onclick="submitExam()">NỘP BÀI THI CHẤM ĐIỂM NGAY 🏆</button>
+    </div>
+
+    <!-- Gamified Report Score Dashboard Modal Overlay Popup -->
+    <div class="modal-overlay" id="result-modal">
+        <div class="modal-card">
+            <h2 style="color: var(--primary-pink); font-size: 26px;">🎉 BẢNG VÀNG THÀNH TÍCH 🎉</h2>
+            <div class="modal-score" id="score-text">0 / 14</div>
+            <div class="modal-comment" id="comment-text">Chúc mừng con đã hoàn thành bài thi đọc hiểu!</div>
+            <button class="btn-close-modal" onclick="closeModal()">ĐÓNG ĐỂ XEM CHI TIẾT LỖI</button>
+        </div>
+    </div>
+
+    <script>
+        // Web Audio API pure synthesizer sound playback controls
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08); // E5
+                osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.16); // G5
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(75, audioCtx.currentTime + 0.35);
+                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            }
+        }
+
+        // CountDown Timer execution state blocks
+        let timeLeft = 25 * 60; 
+        let timerId = null;
+        let timerRunning = false;
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            document.getElementById('timer-display').innerText = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('btn-timer-toggle');
+            if (!timerRunning) {
+                timerRunning = true;
+                btn.innerText = "TẠM DỪNG";
+                btn.style.background = "#FF4757";
+                btn.style.boxShadow = "0 4px 0 #C23616";
+                timerId = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerId);
+                        alert("Đã hết giờ làm bài. Bạn vẫn có thể tiếp tục làm, nhưng nhớ là trong phòng thi thật, bạn chỉ nên làm một bài như thế này trong 20-25 phút thôi nha.");
+                        btn.innerText = "BẮT ĐẦU";
+                        timerRunning = false;
+                    }
+                }, 1000);
+            } else {
+                timerRunning = false;
+                btn.innerText = "TIẾP TỤC";
+                btn.style.background = "var(--yellow-sunny)";
+                btn.style.boxShadow = "0 4px 0 #D6A232";
+                clearInterval(timerId);
+            }
+        }
+
+        // Inline text interpretation toggler
+        function toggleTranslation(id) {
+            const target = document.getElementById('trans-' + id);
+            target.style.display = (target.style.display === 'block') ? 'none' : 'block';
+        }
+
+        // Real-time tracking performance bar calculations
+        const totalQuestions = 14;
+        const answersState = {};
+
+        function recalculateProgressBar() {
+            let keysCount = Object.keys(answersState).length;
+            let ratio = (keysCount / totalQuestions) * 100;
+            document.getElementById('completion-progress').style.width = ratio + '%';
+        }
+
+        // Validate Standard TF/NG dropdown list selections
+        function checkDropdown(id, correctVal, paragraphId) {
+            const el = document.getElementById(id);
+            const card = document.getElementById('card-' + id);
+            const exp = document.getElementById('exp-' + id);
+            const val = el.value;
+
+            if (val === "") return;
+
+            if (val === correctVal) {
+                card.className = "question-card card-correct";
+                playSound('correct');
+                answersState[id] = true;
+            } else {
+                card.className = "question-card card-wrong-shake";
+                setTimeout(() => card.className = "question-card", 400);
+                playSound('wrong');
+                el.value = correctVal; // Auto-populate correct answers immediately
+                answersState[id] = false;
+            }
+            exp.style.display = "block";
+            recalculateProgressBar();
+        }
+
+        // Validate Matching Sentence Endings dropdown components
+        function checkDropdownEnding(id, correctVal, paragraphId) {
+            const el = document.getElementById(id);
+            const card = document.getElementById('card-' + id);
+            const exp = document.getElementById('exp-' + id);
+            const val = el.value;
+
+            if (val === "") return;
+
+            if (val === correctVal) {
+                card.className = "question-card card-correct";
+                playSound('correct');
+                answersState[id] = true;
+            } else {
+                card.className = "question-card card-wrong-shake";
+                setTimeout(() => card.className = "question-card", 400);
+                playSound('wrong');
+                el.value = correctVal; 
+                answersState[id] = false;
+            }
+            exp.style.display = "block";
+            recalculateProgressBar();
+        }
+
+        // Multiple Choice selection logic rows blocks click
+        const mcAnswers = { 'q33': 'A', 'q34': 'D', 'q35': 'B', 'q36': 'D' };
+
+        function checkMultipleChoice(qId, selectedLetter, elementRef, paragraphId) {
+            const card = document.getElementById('card-' + qId);
+            const exp = document.getElementById('exp-' + qId);
+
+            // Turn off pointer clicks once picked
+            const options = card.querySelectorAll('.mc-option');
+            options.forEach(o => o.style.pointerEvents = 'none');
+
+            const accurateLetter = mcAnswers[qId];
+
+            if (selectedLetter === accurateLetter) {
+                elementRef.classList.add('selected-correct');
+                playSound('correct');
+                answersState[qId] = true;
+            } else {
+                elementRef.classList.add('selected-wrong');
+                card.classList.add('card-wrong-shake');
+                setTimeout(() => card.classList.remove('card-wrong-shake'), 400);
+                playSound('wrong');
+                answersState[qId] = false;
+
+                // Emphasize the true target row automatically
+                options.forEach(o => {
+                    if (o.getAttribute('onclick').includes(`'${accurateLetter}'`)) {
+                        o.classList.add('selected-correct');
+                    }
+                });
+            }
+            exp.style.display = "block";
+            recalculateProgressBar();
+        }
+
+        // Precise dynamic page-scroll position highlighter tool
+        function locatePassage(paragraphId) {
+            document.querySelectorAll('.paragraph-block').forEach(p => {
+                p.classList.remove('highlighted-location');
+            });
+
+            const block = document.getElementById(paragraphId);
+            if (block) {
+                block.classList.add('highlighted-location');
+                block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Comprehensive scoreboard calculations
+        function submitExam() {
+            let finalScore = 0;
+            const keysList = ['q27', 'q28', 'q29', 'q30', 'q31', 'q32', 'q33', 'q34', 'q35', 'q36', 'q37', 'q38', 'q39', 'q40'];
+            
+            keysList.forEach(k => {
+                if (answersState[k] === true) finalScore++;
+            });
+
+            document.getElementById('score-text').innerText = `${finalScore} / 14`;
+            
+            let comment = "";
+            if (finalScore === 14) {
+                comment = "👑 HOÀN HẢO TUYỆT ĐỈNH! Con đạt điểm tuyệt đối 14/14, Ms Hằng bái phục và vô cùng tự hào về con!";
+            } else if (finalScore >= 11) {
+                comment = "🌟 XUẤT SẮC QUÁ CON ƠI! Điểm số Reading chạm ngưỡng điểm siêu cao. Xem kỹ các câu bẫy từ khảo cổ để rút kinh nghiệm nhé.";
+            } else if (finalScore >= 7) {
+                comment = "👍 KHÁ TỐT NÈ! Con có nền tảng từ vựng tương đối ổn. Hãy trau dồi sâu thêm bảng Glossary để tăng tốc độ làm bài.";
+            } else {
+                comment = "💪 CỐ LÊN NHÉ CON! Lịch sử La Mã cổ đại vốn là một chủ đề Reading rất nặng về từ vựng trừu tượng. Con hãy mở các đoạn dịch song ngữ lên để học thêm từ mới nhé.";
+            }
+
+            document.getElementById('comment-text').innerText = comment;
+            document.getElementById('result-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('result-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
